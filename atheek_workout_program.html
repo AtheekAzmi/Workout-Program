@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Atheek's Bodybuilding Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0c0c0c;
+  --surface:#161616;
+  --surface2:#1e1e1e;
+  --surface3:#252525;
+  --border:#2a2a2a;
+  --border2:#333;
+  --accent:#f59e0b;
+  --accent-dim:#BA7517;
+  --accent-bg:rgba(245,158,11,0.08);
+  --accent-bg2:rgba(245,158,11,0.15);
+  --text:#f0f0f0;
+  --text2:#a0a0a0;
+  --text3:#666;
+  --red:#E24B4A;
+  --radius:10px;
+  --radius-sm:6px;
+  --radius-lg:14px;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;min-height:100vh;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font-family:'Barlow',sans-serif;cursor:pointer;border:none;outline:none}
+
+/* ── HEADER ── */
+.app-header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:20px 16px 16px;
+  position:sticky;top:0;z-index:100;
+}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:1px;color:var(--text)}
+.logo span{color:var(--accent)}
+.theme-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:var(--radius-sm);font-size:12px}
+.header-sub{font-size:12px;color:var(--text3)}
+
+/* ── STATS BAR ── */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border)}
+.stat-card{background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;text-align:center}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:2px}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--accent)}
+
+/* ── MAIN ── */
+.main{padding:16px;max-width:760px;margin:0 auto}
+
+/* ── PLAN TOGGLE ── */
+.plan-toggle{display:flex;gap:8px;margin-bottom:16px;background:var(--surface2);padding:4px;border-radius:var(--radius);border:1px solid var(--border)}
+.plan-btn{flex:1;padding:9px 12px;border-radius:8px;background:transparent;color:var(--text2);font-size:13px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.5px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.plan-btn.active{background:var(--accent);color:#0c0c0c}
+.plan-badge{font-size:10px;font-weight:700;background:rgba(0,0,0,0.2);padding:1px 5px;border-radius:3px}
+.plan-btn.active .plan-badge{background:rgba(0,0,0,0.25);color:#0c0c0c}
+
+/* ── DAY TABS ── */
+.tabs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;scrollbar-width:none}
+.tabs-scroll::-webkit-scrollbar{display:none}
+.tabs{display:flex;gap:6px;padding-bottom:2px;width:max-content}
+.tab-btn{
+  padding:8px 14px;border-radius:var(--radius-sm);
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text2);font-size:12px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.4px;
+  transition:all 0.15s;white-space:nowrap
+}
+.tab-btn.active{background:var(--accent-bg2);border-color:var(--accent);color:var(--accent)}
+
+/* ── DAY HEADER ── */
+.day-header{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap
+}
+.day-badge{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1px;padding:4px 9px;border-radius:4px
+}
+.day-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text);flex:1;min-width:180px}
+.day-meta{display:flex;gap:12px;flex-wrap:wrap}
+.day-meta-item{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.meta-dot{width:4px;height:4px;border-radius:50%;background:var(--accent)}
+
+/* ── TABLE (desktop) ── */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
+.ex-table{width:100%;border-collapse:collapse;font-size:13px}
+.ex-table thead{background:var(--surface2)}
+.ex-table th{
+  padding:9px 12px;text-align:left;font-size:10px;font-weight:600;
+  letter-spacing:0.8px;text-transform:uppercase;color:var(--text3);
+  border-bottom:1px solid var(--border2)
+}
+.ex-table td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ex-table tr:last-child td{border-bottom:none}
+.ex-table tbody tr{transition:background 0.1s}
+.ex-table tbody tr:hover{background:var(--surface2)}
+.ex-num{color:var(--text3);font-size:11px;width:30px}
+.ex-name{font-weight:500;color:var(--text);font-size:13px}
+.ex-muscle{font-size:11px;color:var(--text3);margin-top:1px}
+.num-val{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
+.rest-val{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;color:var(--text2)}
+.yt-link{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--text2);padding:5px 9px;border-radius:var(--radius-sm);
+  font-size:11px;font-weight:500;transition:all 0.15s;white-space:nowrap
+}
+.yt-link:hover{background:#E24B4A20;border-color:#E24B4A;color:#E24B4A}
+.yt-ico{width:12px;height:12px;flex-shrink:0;fill:#E24B4A}
+.timer-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--text3);padding:4px 8px;border-radius:var(--radius-sm);
+  font-size:10px;font-family:'Barlow Condensed',sans-serif;font-weight:600;
+  letter-spacing:0.3px;transition:all 0.15s;cursor:pointer;margin-left:4px
+}
+.timer-btn:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+
+/* ── CARDS (mobile) ── */
+.card-list{display:none;flex-direction:column;gap:8px;margin-bottom:14px}
+.ex-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 14px;
+  display:grid;grid-template-columns:24px 1fr;gap:0 10px;align-items:start
+}
+.ex-card-num{font-size:11px;color:var(--text3);padding-top:2px}
+.ex-card-body{}
+.ex-card-name{font-weight:600;color:var(--text);font-size:14px;margin-bottom:2px}
+.ex-card-muscle{font-size:11px;color:var(--text3);margin-bottom:8px}
+.ex-card-chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;
+  padding:3px 8px;border-radius:4px
+}
+.chip-sets{background:var(--accent-bg);color:var(--accent);border:1px solid rgba(245,158,11,0.25)}
+.chip-reps{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.chip-rest{background:var(--surface2);color:var(--text2);border:1px solid var(--border2)}
+.card-actions{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+
+/* ── REST TIMER OVERLAY ── */
+.timer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:999;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.2s;backdrop-filter:blur(4px)
+}
+.timer-overlay.active{opacity:1;pointer-events:all}
+.timer-box{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:20px;padding:32px 40px;text-align:center;min-width:260px
+}
+.timer-exercise{font-size:12px;color:var(--text3);margin-bottom:4px;letter-spacing:0.5px;text-transform:uppercase}
+.timer-display{
+  font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;
+  color:var(--accent);line-height:1;margin:12px 0
+}
+.timer-label{font-size:13px;color:var(--text2);margin-bottom:20px}
+.timer-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.timer-ctrl{
+  padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.5px;
+  background:var(--surface2);border:1px solid var(--border2);color:var(--text);
+  cursor:pointer;transition:all 0.15s
+}
+.timer-ctrl.primary{background:var(--accent);border-color:var(--accent);color:#0c0c0c}
+.timer-ctrl:hover{opacity:0.85}
+.timer-progress{
+  width:100%;height:4px;background:var(--border);border-radius:2px;margin-bottom:16px;overflow:hidden
+}
+.timer-progress-bar{height:100%;background:var(--accent);border-radius:2px;transition:width 0.5s linear}
+
+/* ── CARDIO SECTION ── */
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;
+  letter-spacing:0.5px;color:var(--text);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px
+}
+.section-title::before{content:'';display:block;width:3px;height:16px;background:var(--accent);border-radius:2px}
+.cardio-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.cardio-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 14px
+}
+.cardio-card-title{font-weight:600;font-size:13px;color:var(--text);margin-bottom:3px}
+.cardio-card-desc{font-size:12px;color:var(--text3);line-height:1.5}
+
+/* ── NUTRITION NOTE ── */
+.nutrition-row{
+  background:var(--accent-bg);border:1px solid rgba(245,158,11,0.2);
+  border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;
+  display:flex;gap:12px;flex-wrap:wrap
+}
+.nut-item{display:flex;flex-direction:column;min-width:80px}
+.nut-label{font-size:10px;color:var(--accent-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:1px}
+.nut-val{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--accent)}
+
+/* ── OVERLOAD NOTE ── */
+.note-bar{
+  border-left:3px solid var(--accent);padding:10px 14px;
+  background:var(--surface);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin-bottom:24px
+}
+.note-bar p{font-size:12px;color:var(--text2);line-height:1.7}
+.note-bar strong{color:var(--accent)}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:20px 16px;font-size:11px;color:var(--text3);border-top:1px solid var(--border)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .table-wrap{display:none}
+  .card-list{display:flex}
+  .day-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .day-meta{gap:8px}
+  .cardio-grid{grid-template-columns:1fr}
+  .plan-btn{font-size:12px;padding:8px 10px}
+  .app-header{padding:14px 14px 12px}
+  .main{padding:12px}
+}
+@media(max-width:400px){
+  .timer-box{padding:24px 20px}
+  .timer-display{font-size:60px}
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-top">
+    <div class="logo">ATHEEK<span>.</span>BUILD</div>
+    <div style="font-size:11px;color:var(--text3)">Intermediate · 22 · 168cm</div>
+  </div>
+  <div class="header-sub">Bodybuilding Program — Full Gym · 90 min sessions</div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-card"><div class="stat-label">Days/Week</div><div class="stat-val">4–5</div></div>
+  <div class="stat-card"><div class="stat-label">Session</div><div class="stat-val">90 min</div></div>
+  <div class="stat-card"><div class="stat-label">Goal</div><div class="stat-val">Build</div></div>
+  <div class="stat-card"><div class="stat-label">Protein</div><div class="stat-val">~134g</div></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- PLAN TOGGLE -->
+  <div class="plan-toggle">
+    <button class="plan-btn active" onclick="switchPlan('full')">
+      Full Program <span class="plan-badge">5-DAY</span>
+    </button>
+    <button class="plan-btn" onclick="switchPlan('fallback')">
+      Quick Fallback <span class="plan-badge">3-DAY</span>
+    </button>
+  </div>
+
+  <!-- DAY TABS -->
+  <div class="tabs-scroll">
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <!-- DAY CONTENT -->
+  <div id="day-content"></div>
+
+  <!-- CARDIO & RECOVERY -->
+  <div class="section-title">Cardio & Recovery</div>
+  <div class="cardio-grid">
+    <div class="cardio-card">
+      <div class="cardio-card-title">Walking</div>
+      <div class="cardio-card-desc">20–30 min after workout or on rest days. Low impact, promotes fat burning without hurting recovery.</div>
+    </div>
+    <div class="cardio-card">
+      <div class="cardio-card-title">Running</div>
+      <div class="cardio-card-desc">15–20 min, 2× per week. Schedule on non-leg days. Steady pace — not sprinting.</div>
+    </div>
+    <div class="cardio-card">
+      <div class="cardio-card-title">Mobility / Bending</div>
+      <div class="cardio-card-desc">5–10 min post-session. Hip flexors, cat-cow, thoracic rotations. Reduces soreness.</div>
+    </div>
+    <div class="cardio-card">
+      <div class="cardio-card-title">Rest Days</div>
+      <div class="cardio-card-desc">Minimum 2 per week. Sleep 7–9 hrs. Active recovery walks are encouraged.</div>
+    </div>
+  </div>
+
+  <!-- NUTRITION BAR -->
+  <div class="section-title">Daily Nutrition Targets</div>
+  <div class="nutrition-row">
+    <div class="nut-item"><div class="nut-label">Protein</div><div class="nut-val">130–140g</div></div>
+    <div class="nut-item"><div class="nut-label">Calories</div><div class="nut-val">2,600–2,900</div></div>
+    <div class="nut-item"><div class="nut-label">Water</div><div class="nut-val">3–4 L</div></div>
+    <div class="nut-item"><div class="nut-label">Carbs</div><div class="nut-val">High on training days</div></div>
+  </div>
+
+  <!-- NOTE -->
+  <div class="note-bar">
+    <p>
+      <strong>Progressive overload:</strong> add 2.5–5 kg whenever you complete all sets at the top of the rep range.
+      Rest-pause on the last set is encouraged. <strong>Tap the timer icon</strong> next to any exercise to start your rest countdown.
+      The fallback plan keeps all priority muscles (chest, biceps, back, triceps) — use it when time is short.
+    </p>
+  </div>
+
+</main>
+
+<div class="footer">Atheek's Bodybuilding Program · Built for personal use · 2025</div>
+
+<!-- REST TIMER OVERLAY -->
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-box">
+    <div class="timer-exercise" id="timerExercise">Rest Timer</div>
+    <div class="timer-display" id="timerDisplay">60</div>
+    <div class="timer-label">seconds remaining</div>
+    <div class="timer-progress"><div class="timer-progress-bar" id="timerBar" style="width:100%"></div></div>
+    <div class="timer-controls">
+      <button class="timer-ctrl" onclick="adjustTimer(-15)">−15s</button>
+      <button class="timer-ctrl primary" id="timerPlayBtn" onclick="toggleTimer()">Start</button>
+      <button class="timer-ctrl" onclick="adjustTimer(+15)">+15s</button>
+      <button class="timer-ctrl" onclick="closeTimer()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const FULL=[
+  {day:"Day 1",label:"Chest + Triceps",color:"#f59e0b",mins:85,exercises:[
+    {n:"Barbell Bench Press",m:"Chest",s:4,r:"8–10",rest:90,q:"barbell+bench+press+form+tutorial"},
+    {n:"Incline Dumbbell Press",m:"Upper Chest",s:3,r:"10–12",rest:75,q:"incline+dumbbell+press+form"},
+    {n:"Cable Chest Fly",m:"Chest",s:3,r:"12–15",rest:60,q:"cable+chest+fly+technique"},
+    {n:"Decline Dumbbell Press",m:"Lower Chest",s:3,r:"10–12",rest:75,q:"decline+dumbbell+press+tutorial"},
+    {n:"Tricep Pushdown (Cable)",m:"Triceps",s:4,r:"12–15",rest:60,q:"cable+tricep+pushdown+form"},
+    {n:"Skull Crushers (EZ Bar)",m:"Triceps",s:3,r:"10–12",rest:75,q:"skull+crushers+ez+bar+form"},
+    {n:"Overhead Tricep Extension",m:"Triceps (Long Head)",s:3,r:"12–15",rest:60,q:"overhead+tricep+extension+form"}
+  ]},
+  {day:"Day 2",label:"Back + Biceps + Forearms",color:"#3b82f6",mins:90,exercises:[
+    {n:"Lat Pulldown",m:"Lats / Back",s:4,r:"8–10",rest:90,q:"lat+pulldown+proper+form"},
+    {n:"Barbell Bent-Over Row",m:"Back",s:4,r:"8–10",rest:90,q:"barbell+bent+over+row+form"},
+    {n:"Seated Cable Row",m:"Mid Back",s:3,r:"10–12",rest:75,q:"seated+cable+row+form+tutorial"},
+    {n:"Single Arm Dumbbell Row",m:"Back",s:3,r:"10 each",rest:60,q:"single+arm+dumbbell+row+form"},
+    {n:"Barbell Bicep Curl",m:"Biceps",s:4,r:"10–12",rest:75,q:"barbell+bicep+curl+technique"},
+    {n:"Hammer Curl",m:"Biceps + Brachialis",s:3,r:"12–15",rest:60,q:"hammer+curl+proper+form"},
+    {n:"Wrist Curl (Barbell)",m:"Forearms",s:3,r:"15–20",rest:45,q:"wrist+curl+forearm+exercise"},
+    {n:"Reverse Barbell Curl",m:"Forearms + Biceps",s:3,r:"12–15",rest:60,q:"reverse+barbell+curl+forearms"}
+  ]},
+  {day:"Day 3",label:"Shoulders + Abs",color:"#22c55e",mins:80,exercises:[
+    {n:"Seated DB Shoulder Press",m:"Shoulders",s:4,r:"10–12",rest:90,q:"seated+dumbbell+shoulder+press+form"},
+    {n:"Lateral Raises",m:"Side Delts",s:4,r:"15–20",rest:60,q:"lateral+raise+proper+form"},
+    {n:"Front Raises",m:"Front Delts",s:3,r:"12–15",rest:60,q:"front+raise+dumbbell+form"},
+    {n:"Rear Delt Fly (Machine)",m:"Rear Delts",s:3,r:"15–20",rest:60,q:"rear+delt+fly+machine+tutorial"},
+    {n:"Face Pulls (Cable)",m:"Rear Delts + Rotator Cuff",s:3,r:"15–20",rest:60,q:"cable+face+pulls+form"},
+    {n:"Cable Crunch",m:"Abs",s:4,r:"15–20",rest:60,q:"cable+crunch+abs+form"},
+    {n:"Hanging Leg Raises",m:"Lower Abs",s:3,r:"12–15",rest:60,q:"hanging+leg+raises+tutorial"},
+    {n:"Plank",m:"Core",s:3,r:"60s hold",rest:45,q:"perfect+plank+form+tutorial"},
+    {n:"Russian Twists (Weighted)",m:"Obliques",s:3,r:"20 total",rest:45,q:"russian+twists+weighted+abs"}
+  ]},
+  {day:"Day 4",label:"Legs — No Squats",color:"#14b8a6",mins:85,exercises:[
+    {n:"Leg Press",m:"Quads + Glutes",s:4,r:"12–15",rest:90,q:"leg+press+proper+form"},
+    {n:"Romanian Deadlift (DB)",m:"Hamstrings + Glutes",s:4,r:"10–12",rest:90,q:"romanian+deadlift+dumbbell+form"},
+    {n:"Leg Extension",m:"Quads",s:3,r:"15–20",rest:60,q:"leg+extension+machine+form"},
+    {n:"Leg Curl (Machine)",m:"Hamstrings",s:3,r:"12–15",rest:60,q:"lying+leg+curl+machine+tutorial"},
+    {n:"Walking Lunges (DB)",m:"Quads + Glutes",s:3,r:"12 each leg",rest:75,q:"dumbbell+walking+lunges+form"},
+    {n:"Standing Calf Raise",m:"Calves",s:4,r:"20–25",rest:45,q:"standing+calf+raise+form"},
+    {n:"Barbell Hip Thrust",m:"Glutes",s:3,r:"12–15",rest:75,q:"barbell+hip+thrust+tutorial"}
+  ]},
+  {day:"Day 5",label:"Arms + Core",color:"#a855f7",mins:80,exercises:[
+    {n:"EZ Bar Preacher Curl",m:"Biceps (Peak)",s:4,r:"10–12",rest:75,q:"preacher+curl+ez+bar+form"},
+    {n:"Incline Dumbbell Curl",m:"Biceps (Long Head)",s:3,r:"12–15",rest:60,q:"incline+dumbbell+curl+form"},
+    {n:"Concentration Curl",m:"Biceps",s:3,r:"12 each",rest:60,q:"concentration+curl+bicep+form"},
+    {n:"Close-Grip Bench Press",m:"Triceps + Chest",s:4,r:"8–10",rest:90,q:"close+grip+bench+press+form"},
+    {n:"Tricep Dips (Weighted)",m:"Triceps",s:3,r:"10–12",rest:75,q:"weighted+tricep+dips+tutorial"},
+    {n:"Cable Overhead Tricep Ext.",m:"Triceps (Long Head)",s:3,r:"12–15",rest:60,q:"cable+overhead+tricep+extension"},
+    {n:"Reverse Curl (Forearms)",m:"Forearms + Biceps",s:3,r:"15",rest:60,q:"reverse+curl+forearms+form"},
+    {n:"Mountain Climbers",m:"Core + Cardio",s:3,r:"30s",rest:45,q:"mountain+climbers+proper+form"}
+  ]}
+];
+
+const FALLBACK=[
+  {day:"Day A",label:"Push — Chest + Shoulders + Triceps",color:"#f59e0b",mins:55,exercises:[
+    {n:"Barbell Bench Press",m:"Chest",s:4,r:"8–10",rest:90,q:"barbell+bench+press+form"},
+    {n:"Incline DB Press",m:"Upper Chest",s:3,r:"10–12",rest:75,q:"incline+dumbbell+press+form"},
+    {n:"Seated DB Shoulder Press",m:"Shoulders",s:3,r:"10–12",rest:75,q:"seated+dumbbell+shoulder+press"},
+    {n:"Lateral Raises",m:"Side Delts",s:3,r:"15",rest:60,q:"lateral+raises+form"},
+    {n:"Tricep Pushdown (Cable)",m:"Triceps",s:3,r:"12–15",rest:60,q:"tricep+pushdown+cable+form"},
+    {n:"Skull Crushers",m:"Triceps",s:3,r:"10–12",rest:75,q:"skull+crushers+tutorial"}
+  ]},
+  {day:"Day B",label:"Pull — Back + Biceps + Forearms",color:"#3b82f6",mins:55,exercises:[
+    {n:"Lat Pulldown",m:"Back",s:4,r:"8–10",rest:90,q:"lat+pulldown+form"},
+    {n:"Seated Cable Row",m:"Mid Back",s:3,r:"10–12",rest:75,q:"seated+cable+row+form"},
+    {n:"Single Arm DB Row",m:"Back",s:3,r:"10 each",rest:60,q:"dumbbell+row+form"},
+    {n:"Barbell Bicep Curl",m:"Biceps",s:3,r:"10–12",rest:75,q:"barbell+bicep+curl+form"},
+    {n:"Hammer Curl",m:"Biceps + Forearms",s:3,r:"12–15",rest:60,q:"hammer+curl+form"},
+    {n:"Reverse Barbell Curl",m:"Forearms",s:3,r:"15",rest:60,q:"reverse+curl+forearms"}
+  ]},
+  {day:"Day C",label:"Legs + Abs",color:"#14b8a6",mins:50,exercises:[
+    {n:"Leg Press",m:"Quads + Glutes",s:4,r:"12–15",rest:90,q:"leg+press+form"},
+    {n:"Romanian Deadlift (DB)",m:"Hamstrings",s:3,r:"10–12",rest:90,q:"romanian+deadlift+form"},
+    {n:"Leg Curl Machine",m:"Hamstrings",s:3,r:"12–15",rest:60,q:"leg+curl+machine+form"},
+    {n:"Standing Calf Raise",m:"Calves",s:3,r:"20–25",rest:45,q:"calf+raise+standing+form"},
+    {n:"Cable Crunch",m:"Abs",s:3,r:"15–20",rest:60,q:"cable+crunch+abs"},
+    {n:"Hanging Leg Raises",m:"Lower Abs",s:3,r:"12–15",rest:60,q:"hanging+leg+raises+form"},
+    {n:"Plank",m:"Core",s:3,r:"60s hold",rest:45,q:"plank+form+tutorial"}
+  ]}
+];
+
+let plan='full', activeDay=0;
+
+function switchPlan(p){
+  plan=p; activeDay=0;
+  document.querySelectorAll('.plan-btn').forEach((b,i)=>b.classList.toggle('active',i===(p==='full'?0:1)));
+  render();
+}
+
+function render(){
+  const data=plan==='full'?FULL:FALLBACK;
+  const tabEl=document.getElementById('tabs');
+  const contentEl=document.getElementById('day-content');
+
+  tabEl.innerHTML=data.map((d,i)=>`
+    <button class="tab-btn${i===activeDay?' active':''}" onclick="setDay(${i})">
+      ${d.day}
+    </button>`).join('');
+
+  const d=data[activeDay];
+  const totalSets=d.exercises.reduce((a,e)=>a+e.s,0);
+
+  const tableRows=d.exercises.map((e,i)=>`
+    <tr>
+      <td class="ex-num">${i+1}</td>
+      <td><div class="ex-name">${e.n}</div><div class="ex-muscle">${e.m}</div></td>
+      <td><span class="num-val">${e.s}</span></td>
+      <td><span class="num-val">${e.r}</span></td>
+      <td>
+        <span class="rest-val">${e.rest}s</span>
+        <button class="timer-btn" onclick="openTimer(${e.rest},'${e.n.replace(/'/g,"\\'")}')">⏱</button>
+      </td>
+      <td>
+        <a class="yt-link" href="https://www.youtube.com/results?search_query=${e.q}" target="_blank" rel="noopener">
+          <svg class="yt-ico" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Watch
+        </a>
+      </td>
+    </tr>`).join('');
+
+  const cards=d.exercises.map((e,i)=>`
+    <div class="ex-card">
+      <div class="ex-card-num">${i+1}</div>
+      <div class="ex-card-body">
+        <div class="ex-card-name">${e.n}</div>
+        <div class="ex-card-muscle">${e.m}</div>
+        <div class="ex-card-chips">
+          <span class="chip chip-sets">${e.s} sets</span>
+          <span class="chip chip-reps">${e.r} reps</span>
+          <span class="chip chip-rest">${e.rest}s rest</span>
+        </div>
+        <div class="card-actions">
+          <button class="timer-btn" style="font-size:12px;padding:6px 10px" onclick="openTimer(${e.rest},'${e.n.replace(/'/g,"\\'")}')">⏱ Rest Timer</button>
+          <a class="yt-link" style="font-size:12px;padding:6px 10px" href="https://www.youtube.com/results?search_query=${e.q}" target="_blank" rel="noopener">
+            <svg class="yt-ico" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+            Watch Form
+          </a>
+        </div>
+      </div>
+    </div>`).join('');
+
+  contentEl.innerHTML=`
+    <div class="day-header">
+      <div class="day-badge" style="background:${d.color}20;color:${d.color}">${d.day}</div>
+      <div class="day-title">${d.label}</div>
+      <div class="day-meta">
+        <div class="day-meta-item"><div class="meta-dot"></div>${d.exercises.length} exercises</div>
+        <div class="day-meta-item"><div class="meta-dot"></div>${totalSets} total sets</div>
+        <div class="day-meta-item"><div class="meta-dot"></div>~${d.mins} min</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="ex-table">
+        <thead>
+          <tr>
+            <th style="width:30px">#</th>
+            <th>Exercise</th>
+            <th style="width:52px">Sets</th>
+            <th style="width:80px">Reps</th>
+            <th style="width:90px">Rest</th>
+            <th style="width:88px">Tutorial</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <div class="card-list">${cards}</div>`;
+}
+
+function setDay(i){activeDay=i;render()}
+
+// ── REST TIMER ──
+let timerInterval=null, timerRemaining=60, timerTotal=60, timerRunning=false;
+
+function openTimer(secs, exName){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  timerRemaining=secs; timerTotal=secs;
+  document.getElementById('timerExercise').textContent=exName;
+  document.getElementById('timerDisplay').textContent=secs;
+  document.getElementById('timerBar').style.width='100%';
+  document.getElementById('timerPlayBtn').textContent='Start';
+  document.getElementById('timerOverlay').classList.add('active');
+}
+
+function closeTimer(){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  document.getElementById('timerOverlay').classList.remove('active');
+}
+
+function toggleTimer(){
+  if(timerRunning){
+    clearInterval(timerInterval);
+    timerRunning=false;
+    document.getElementById('timerPlayBtn').textContent='Resume';
+  } else {
+    if(timerRemaining<=0){timerRemaining=timerTotal;}
+    timerRunning=true;
+    document.getElementById('timerPlayBtn').textContent='Pause';
+    timerInterval=setInterval(()=>{
+      timerRemaining--;
+      document.getElementById('timerDisplay').textContent=timerRemaining;
+      document.getElementById('timerBar').style.width=Math.round((timerRemaining/timerTotal)*100)+'%';
+      if(timerRemaining<=0){
+        clearInterval(timerInterval);
+        timerRunning=false;
+        document.getElementById('timerPlayBtn').textContent='Done!';
+        document.getElementById('timerDisplay').style.color='#22c55e';
+        try{new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAA').play();}catch(e){}
+      }
+    },1000);
+  }
+}
+
+function adjustTimer(delta){
+  timerTotal=Math.max(15,timerTotal+delta);
+  timerRemaining=Math.max(0,timerRemaining+delta);
+  document.getElementById('timerDisplay').textContent=timerRemaining;
+  document.getElementById('timerBar').style.width=Math.round((timerRemaining/timerTotal)*100)+'%';
+}
+
+document.getElementById('timerOverlay').addEventListener('click',function(e){
+  if(e.target===this)closeTimer();
+});
+
+document.getElementById('timerDisplay').style.color='';
+
+render();
+</script>
+</body>
+</html>
